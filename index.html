@@ -403,11 +403,11 @@
                 <div class="input-row">
                     <div class="input-group">
                         <label>Nbr Sent</label>
-                        <input type="text" id="nbrSent" placeholder="3000">
+                        <input type="text" id="nbrSent" placeholder="5000">
                     </div>
                     <div class="input-group">
                         <label>Increment</label>
-                        <input type="text" id="increment" placeholder="500">
+                        <input type="text" id="increment" placeholder="0">
                     </div>
                 </div>
 
@@ -503,14 +503,6 @@
                 return;
             }
             
-            if (nbrSent === 0 || increment === 0) {
-                outputEl.value = 'Please enter valid values for Nbr Sent and Increment';
-                statsEl.textContent = 'Invalid values';
-                statsEl.className = 'stats error';
-                countEl.textContent = '0 entries';
-                return;
-            }
-            
             const entries = ips.map(ip => `${ip}\t${nbrSent}\t${increment}`);
             outputEl.value = entries.join('\n');
             statsEl.textContent = `Generated ${entries.length} entries (Nbr Sent: ${nbrSent}, Increment: ${increment})`;
@@ -537,9 +529,9 @@
                 return;
             }
             
-            if (numEntries < 1 || incrementMinutes < 1 || idDeploy < 1) {
-                outputEl.value = 'Values must be at least 1';
-                statsEl.textContent = 'Invalid values';
+            if (numEntries < 1) {
+                outputEl.value = 'Number of entries must be at least 1';
+                statsEl.textContent = 'Invalid entries value';
                 statsEl.className = 'stats error';
                 countEl.textContent = '0 entries';
                 return;
