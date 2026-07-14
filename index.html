@@ -145,6 +145,12 @@
             gap: 15px;
         }
         
+        .input-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
         .input-group {
             display: flex;
             align-items: center;
@@ -165,7 +171,7 @@
         .input-group label {
             font-weight: 600;
             color: #555;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.3px;
             white-space: nowrap;
@@ -176,7 +182,7 @@
             padding: 10px 0;
             background: transparent;
             width: 100%;
-            font-size: 14px;
+            font-size: 13px;
             font-family: inherit;
         }
         
@@ -347,6 +353,10 @@
                 grid-template-columns: 1fr;
             }
             
+            .input-row-2 {
+                grid-template-columns: 1fr;
+            }
+            
             .button-group {
                 flex-direction: column;
             }
@@ -460,6 +470,17 @@
                     </div>
                 </div>
 
+                <div class="input-row-2">
+                    <div class="input-group">
+                        <label>Field 1</label>
+                        <input type="text" id="field1" value="list_warmup_webautomat">
+                    </div>
+                    <div class="input-group">
+                        <label>Field 2</label>
+                        <input type="text" id="field2" value="RDNS1">
+                    </div>
+                </div>
+
                 <div class="button-group">
                     <button class="btn btn-primary" onclick="generateTimeEntries()">Generate</button>
                     <button class="btn btn-secondary" onclick="clearOutput('timeOutput')">Clear</button>
@@ -516,6 +537,8 @@
             const numEntries = parseInt(document.getElementById('numEntries').value) || 0;
             const incrementMinutes = parseInt(document.getElementById('incrementMinutes').value) || 0;
             const idDeploy = parseInt(document.getElementById('idDeploy').value) || 0;
+            const field1 = document.getElementById('field1').value || 'list_warmup_webautomat';
+            const field2 = document.getElementById('field2').value || 'RDNS1';
             
             const outputEl = document.getElementById('timeOutput');
             const statsEl = document.getElementById('timeStats');
@@ -545,7 +568,7 @@
                 let hours = Math.floor(currentMinutes / 60) % 24;
                 let minutes = currentMinutes % 60;
                 const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-                entries.push(`${timeStr};${idDeploy};list_warmup_webautomat;RDNS1`);
+                entries.push(`${timeStr};${idDeploy};${field1};${field2}`);
                 currentMinutes += incrementMinutes;
             }
             
