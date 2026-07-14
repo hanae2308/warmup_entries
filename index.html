@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entry Generator Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+        
+        /* Tool Grid */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        /* Cards */
+        .tool-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .card-header h2 {
+            font-size: 1.5rem;
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+        
+        .card-header .badge {
+            margin-left: auto;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-subtitle {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group textarea,
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+        
+        .form-group textarea:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fafafa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 0 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group:focus-within {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        
+        .input-group input {
+            border: none;
+            padding: 10px 0;
+            background: transparent;
+            width: 100%;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        
+        .input-group .suffix {
+            color: #999;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #555;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        /* Output */
+        .output-section {
+            margin-top: 20px;
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .output-header h3 {
+            font-size: 0.85rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .output-header .count {
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .output-wrapper {
+            position: relative;
+        }
+        
+        .output-wrapper textarea {
+            width: 100%;
+            height: 150px;
+            padding: 12px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            background: #fafafa;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        
+        .output-wrapper textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .copy-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .stats {
+            margin-top: 10px;
+            padding: 8px 14px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #555;
+            border-left: 3px solid #667eea;
+        }
+        
+        .stats.success {
+            border-left-color: #28a745;
+            background: #f0faf0;
+        }
+        
+        .stats.error {
+            border-left-color: #dc3545;
+            background: #faf0f0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tool-card {
+                padding: 20px;
+            }
+            
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn-secondary {
+                flex: 1;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .tool-card {
+            animation: fadeIn 0.6s ease;
+        }
+        
+        .tool-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Entry Generator</h1>
+            <p>Generate IP and time entries in seconds</p>
+        </div>
+
+        <!-- Tools -->
+        <div class="tool-grid">
+            <!-- Tool 1: IP Generator -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <h2>IP Generator</h2>
+                    <span class="badge">Tab-separated</span>
+                </div>
+                <p class="card-subtitle">Enter IP addresses, one per line</p>
+
+                <div class="form-group">
+                    <label>IP Addresses</label>
+                    <textarea id="ipInput" placeholder="Enter IP addresses here..."></textarea>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Nbr Sent</label>
+                        <input type="text" id="nbrSent" placeholder="3000">
+                    </div>
+                    <div class="input-group">
+                        <label>Increment</label>
+                        <input type="text" id="increment" placeholder="500">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="generateIPEntries()">Generate</button>
+                    <button class="btn btn-secondary" onclick="clearOutput('ipOutput')">Clear</button>
+                </div>
+
+                <div class="output-section">
+                    <div class="output-header">
+                        <h3>Output</h3>
+                        <span class="count" id="ipCount">0 entries</span>
+                    </div>
+                    <div class="output-wrapper">
+                        <textarea id="ipOutput" readonly></textarea>
+                        <button class="copy-btn" onclick="copyToClipboard('ipOutput')">Copy</button>
+                    </div>
+                    <div class="stats" id="ipStats">Ready to generate</div>
+                </div>
+            </div>
+
+            <!-- Tool 2: Time Generator -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <h2>Time Generator</h2>
+                    <span class="badge">24h format</span>
+                </div>
+                <p class="card-subtitle">Generate time entries with custom intervals</p>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Start</label>
+                        <input type="time" id="startTime" value="">
+                    </div>
+                    <div class="input-group">
+                        <label>Entries</label>
+                        <input type="text" id="numEntries" placeholder="10">
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Increment</label>
+                        <input type="text" id="incrementMinutes" placeholder="60">
+                        <span class="suffix">min</span>
+                    </div>
+                    <div class="input-group">
+                        <label>ID Deploy</label>
+                        <input type="text" id="idDeploy" placeholder="1">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="generateTimeEntries()">Generate</button>
+                    <button class="btn btn-secondary" onclick="clearOutput('timeOutput')">Clear</button>
+                </div>
+
+                <div class="output-section">
+                    <div class="output-header">
+                        <h3>Output</h3>
+                        <span class="count" id="timeCount">0 entries</span>
+                    </div>
+                    <div class="output-wrapper">
+                        <textarea id="timeOutput" readonly></textarea>
+                        <button class="copy-btn" onclick="copyToClipboard('timeOutput')">Copy</button>
+                    </div>
+                    <div class="stats" id="timeStats">Ready to generate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============= TOOL 1: IP GENERATOR =============
+        function generateIPEntries() {
+            const ipText = document.getElementById('ipInput').value;
+            const nbrSent = parseInt(document.getElementById('nbrSent').value) || 0;
+            const increment = parseInt(document.getElementById('increment').value) || 0;
+            
+            const ips = ipText.split('\n')
+                .map(ip => ip.trim())
+                .filter(ip => ip.length > 0);
+            
+            const outputEl = document.getElementById('ipOutput');
+            const statsEl = document.getElementById('ipStats');
+            const countEl = document.getElementById('ipCount');
+            
+            if (ips.length === 0) {
+                outputEl.value = 'Please enter at least one IP address';
+                statsEl.textContent = 'No IPs provided';
+                statsEl.className = 'stats error';
+                countEl.textContent = '0 entries';
+                return;
+            }
+            
+            if (nbrSent === 0 || increment === 0) {
+                outputEl.value = 'Please enter valid values for Nbr Sent and Increment';
+                statsEl.textContent = 'Invalid values';
+                statsEl.className = 'stats error';
+                countEl.textContent = '0 entries';
+                return;
+            }
+            
+            const entries = ips.map(ip => `${ip}\t${nbrSent}\t${increment}`);
+            outputEl.value = entries.join('\n');
+            statsEl.textContent = `Generated ${entries.length} entries (Nbr Sent: ${nbrSent}, Increment: ${increment})`;
+            statsEl.className = 'stats success';
+            countEl.textContent = `${entries.length} entries`;
+        }
+        
+        // ============= TOOL 2: TIME GENERATOR =============
+        function generateTimeEntries() {
+            const startTimeStr = document.getElementById('startTime').value;
+            const numEntries = parseInt(document.getElementById('numEntries').value) || 0;
+            const incrementMinutes = parseInt(document.getElementById('incrementMinutes').value) || 0;
+            const idDeploy = parseInt(document.getElementById('idDeploy').value) || 0;
+            
+            const outputEl = document.getElementById('timeOutput');
+            const statsEl = document.getElementById('timeStats');
+            const countEl = document.getElementById('timeCount');
+            
+            if (!startTimeStr) {
+                outputEl.value = 'Please select a start time';
+                statsEl.textContent = 'Missing start time';
+                statsEl.className = 'stats error';
+                countEl.textContent = '0 entries';
+                return;
+            }
+            
+            if (numEntries < 1 || incrementMinutes < 1 || idDeploy < 1) {
+                outputEl.value = 'Values must be at least 1';
+                statsEl.textContent = 'Invalid values';
+                statsEl.className = 'stats error';
+                countEl.textContent = '0 entries';
+                return;
+            }
+            
+            const startParts = startTimeStr.split(':').map(Number);
+            let currentMinutes = startParts[0] * 60 + startParts[1];
+            
+            const entries = [];
+            for (let i = 0; i < numEntries; i++) {
+                let hours = Math.floor(currentMinutes / 60) % 24;
+                let minutes = currentMinutes % 60;
+                const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                entries.push(`${timeStr};${idDeploy};list_warmup_webautomat;RDNS1`);
+                currentMinutes += incrementMinutes;
+            }
+            
+            outputEl.value = entries.join('\n');
+            
+            let incDisplay = incrementMinutes >= 60 ? 
+                `${Math.floor(incrementMinutes/60)}h${incrementMinutes%60 ? ' '+(incrementMinutes%60)+'m' : ''}` : 
+                `${incrementMinutes}m`;
+            
+            statsEl.textContent = `Generated ${entries.length} entries (Start: ${startTimeStr}, Inc: ${incDisplay}, ID: ${idDeploy})`;
+            statsEl.className = 'stats success';
+            countEl.textContent = `${entries.length} entries`;
+        }
+        
+        // ============= UTILITY FUNCTIONS =============
+        function copyToClipboard(elementId) {
+            const textarea = document.getElementById(elementId);
+            if (!textarea.value) {
+                alert('Nothing to copy');
+                return;
+            }
+            
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                const btn = textarea.parentElement.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#28a745';
+                btn.style.color = 'white';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'white';
+                    btn.style.color = '#555';
+                }, 2000);
+            }).catch(() => {
+                textarea.select();
+                document.execCommand('copy');
+                alert('Copied to clipboard');
+            });
+        }
+        
+        function clearOutput(elementId) {
+            document.getElementById(elementId).value = '';
+            const statsId = elementId === 'ipOutput' ? 'ipStats' : 'timeStats';
+            const countId = elementId === 'ipOutput' ? 'ipCount' : 'timeCount';
+            document.getElementById(statsId).textContent = 'Cleared';
+            document.getElementById(statsId).className = 'stats';
+            document.getElementById(countId).textContent = '0 entries';
+        }
+    </script>
+</body>
+</html>
